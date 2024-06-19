@@ -1,5 +1,7 @@
 # SwiftLink: The Rapid URL Shortener
 
+[🇺🇸English](README.md) | [🇨🇳中文](README-zh.md)
+
 ![GitHub Stars](https://img.shields.io/github/stars/sengedev/SwiftLink?style=social)
 ![GitHub License](https://img.shields.io/github/license/sengedev/SwiftLink)
 
@@ -40,6 +42,15 @@
    uvicorn main:app --reload
    ```
    Access `http://127.0.0.1:8000/docs` to interact with the live API documentation.
+
+4. **Bind your Domain**:
+   Please don't forget to bind your domain name after the installation is complete, domain names are more secure and reliable compared to IP addresses.
+   In production environment, you can use Nginx, Apache or Caddy to bind your domain name, it is recommended to use Caddy for binding, but you can also choose a http server what you want.
+   Nginx, Apache, and Caddy are three commonly used web servers, each with its own unique advantages and disadvantages.
+- **[Nginx](https://nginx.org/)**: Nginx is a good choice if high concurrency performance and low memory consumption are required, especially for processing static content and reverse proxying.
+- **[Caddy](https://caddyserver.com/)**: If you need rich features and module support, as well as good compatibility, Apache may be more suitable.
+- **[Apache](https://httpd.apache.org/)**: If you wish to simplify HTTPS configuration and need an easy-to-configure server, Caddy is a good choice.
+   
 
 ## License
 
