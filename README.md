@@ -11,7 +11,7 @@
 
 - **快速响应**: 利用 FastAPI 的异步处理实现近乎即时的链接创建和重定向。
 - **个性化**: 提供可自定义的短 URL 或自动生成，以及用于增强品牌标识的别名。
-- **Scalable Architecture**: Built for flexibility, allowing easy integration with additional services and future enhancements.
+- **可扩展架构**: 构建灵活，可轻松集成其他服务和未来增强功能。
 
 ## 技术栈
 
