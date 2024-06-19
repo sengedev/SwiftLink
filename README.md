@@ -48,8 +48,8 @@
    In production environment, you can use Nginx, Apache or Caddy to bind your domain name, it is recommended to use Caddy for binding, but you can also choose a http server what you want.
    Nginx, Apache, and Caddy are three commonly used web servers, each with its own unique advantages and disadvantages.
 - **[Nginx](https://nginx.org/)**: Nginx is a good choice if high concurrency performance and low memory consumption are required, especially for processing static content and reverse proxying.
-- **[Caddy](https://caddyserver.com/)**: If you need rich features and module support, as well as good compatibility, Apache may be more suitable.
-- **[Apache](https://httpd.apache.org/)**: If you wish to simplify HTTPS configuration and need an easy-to-configure server, Caddy is a good choice.
+- **[Caddy](https://caddyserver.com/)**: If you wish to simplify HTTPS configuration and need an easy-to-configure server, Caddy is a good choice.
+- **[Apache](https://httpd.apache.org/)**: If you need rich features and module support, as well as good compatibility, Apache may be more suitable.
    
 
 ## License
