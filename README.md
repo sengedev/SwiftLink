@@ -5,7 +5,7 @@
 ![GitHub Stars](https://img.shields.io/github/stars/sengedev/SwiftLink?style=social)
 ![GitHub License](https://img.shields.io/github/license/sengedev/SwiftLink)
 
-**SwiftLink** 是一个使用 FastAPI 精心打造的高性能短链接平台，旨在快速将冗长的 URL 转换为紧凑、易于共享的链接。非常适合在社交媒体、电子邮件或任何简单与效率相结合的平台上无缝共享。
+**SwiftLink** 是一个使用 FastAPI 精心打造的高性能短链接平台，旨在快速将冗长的 URL 转换为紧凑、易于共享的链接。非常适合在社交媒体、博客或任何简单与效率相结合的平台上无缝共享。SwiftLink将精简作为首要目标。
 
 ## 关键作用
 
