@@ -38,19 +38,106 @@
    ```
    pip install -r requirements.txt
    ```
-4. **Start the service**.
+3. **Start the service**.
    ```
    python main.py
    ```
    The system disables the /docs and /redoc directories by default.
 
-5. **Bind a domain name**:
+4. **Bind a domain name**:
    Please don't forget to bind a domain name after the installation is complete. Domain names are safer and more reliable than IP addresses.
    In the production environment, you can use Nginx, Apache or Caddy to bind the domain name, it is recommended to use Caddy for binding, but you can also choose the http server according to the need.
    Nginx, Apache and Caddy are three commonly used web servers, each with its own advantages and disadvantages.
 - **[Nginx](https://nginx.org/)**: Nginx is a good choice if you need high concurrency performance and low memory consumption, especially for handling static content and reverse proxies.
 - **[Caddy](https://caddyserver.com/)**: Caddy is a good choice if you want to simplify HTTPS configuration and need an easy-to-configure server.
 - **[Apache](https://httpd.apache.org/)**: If you need rich feature and module support, as well as good compatibility, Apache may be a better fit.
-   
+
+## How to Use
+
+This demo uses curl to implement a RESTful API that supports the management of users and short links. This demo use`https://your-domain.com` as the domain, you should change it to your own domain.
+
+### User Management
+
+1. **Create User**:
+
+```
+curl --location --request POST 'https://your-domain.com/user' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"
+}'
+```
+> You should create a new user in the first time you started up. System is only allow you to create only one user. If you forget your password, please delete user in user table manually. If password is empty, system will generate a random password.
+
+2. **Change Password**:
+
+```
+curl --location --request PUT 'https://your-domain.com/user' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>",
+    "new_password": "<new_password>"
+}'
+```
+
+> If new password is empty, system will generate a random password as your new password.
+
+### Short Link Management
+
+- The following is reserved and setting up short links is prohibited: `favicon.ico`, `index.html`, `robots.txt`, `sitemap.xml`, `docs`, `redoc`, `user`, `shortlink`, `shortlinks`
+
+1. **Get all Shortlinks**:
+
+```
+curl --location --request GET 'https://your-domain.com/shortlinks' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"
+}'
+```
+
+2. **Create New Shortlink**:
+
+```
+curl --location --request POST 'https://your-domain.com/shortlink' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"，
+    "route": "<route>",
+    "url": "<http://example.com/long-route>"
+}'
+```   
+
+3. **Edit a Shortlink**:
+
+```
+curl --location --request PUT 'https://your-domain.com/shortlink' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"，
+    "route": "<route>",
+    "url": "<http://example.com/long-route>",
+    "new-route": "<new-route>",
+    "new-url": "<new-url>"
+}'
+```
+
+4. **Delete a Shortlink**:
+
+```
+curl --location --request DELETE 'https://your-domain.com/shortlink' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"，
+    "route": "<route>"
+}'
+```
+
 ## License
 This project is distributed under [Apache 2.0](LICENSE), please follow the open source License.
