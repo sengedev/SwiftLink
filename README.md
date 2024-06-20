@@ -51,6 +51,90 @@
 - **[Nginx](https://nginx.org/)**： 如果需要高并发性能和低内存消耗，特别是处理静态内容和反向代理，Nginx 是一个不错的选择。
 - **[Caddy](https://caddyserver.com/)**： 如果希望简化 HTTPS 配置，并需要一个易于配置的服务器，Caddy 是一个不错的选择。
 - **[Apache](https://httpd.apache.org/)**： 如果你需要丰富的功能和模块支持，以及良好的兼容性，Apache 可能更适合你。
-   
+
+## 如何使用
+
+本示例使用CURL实现RESTful API，支持用户和短链接的管理。
+
+### 用户管理
+
+1. **创建用户**
+
+```bash
+curl --location --request POST 'https://your-domain.com/user' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"
+}'
+```
+
+> 您需要在第一次启动时创建用户，系统只允许创建一个用户。如您忘记密码，您需要手动删除数据库user表中的用户信息后重新请求创建。
+> 如果密码为空，系统会生成一个随机密码
+
+2. **修改密码**
+```bash
+curl --location --request PUT 'https://your-domain.com/user' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>",
+    "new_password": "<new_password>"
+}'
+```
+
+> 如果新密码为空则生成一个随机密码
+
+### 短链接管理
+
+- 以下为保留字，禁止设置为短链接：`favicon.ico`, `index.html`, `robots.txt`, `sitemap.xml`, `docs`, `redoc`, `user`, `shortlinks`, `shortlink`
+
+1. **获取所有短链接**
+```bash
+curl --location --request GET 'https://your-domain.com/shortlinks' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"
+}'
+```
+
+2. **创建短链接**
+```bash
+curl --location --request POST 'https://your-domain.com/shortlink' \
+=--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"，
+    "route": "<route>",
+    "url": "<http://example.com/long-route>"
+}'
+```
+
+3. **修改短链接**
+```bash
+curl --location --request PUT 'https://your-domain.com/shortlink' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"，
+    "route": "<route>",
+    "url": "<http://example.com/long-route>",
+    "new-route": "<new-route>",
+    "new-url": "<new-url>"
+}'
+```
+
+4. **删除短链接**
+```bash
+curl --location --request DELETE 'https://your-domain.com/shortlink' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "username": "<username>",
+    "password": "<password>"，
+    "route": "<route>"
+}'
+```
+
 ## 协议
 本项目在[Apache 2.0](LICENSE)下分发，请遵守开源协议。
