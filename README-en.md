@@ -34,6 +34,10 @@
    ```
    source venv/bin/activate
    ```
+   Change directory to `server`
+   ```
+   cd server
+   ```
    Install required packages using pip:
    ```
    pip install -r requirements.txt
