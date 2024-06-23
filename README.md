@@ -34,6 +34,10 @@
    ```
    source venv/bin/activate
    ```
+   进入到server目录
+   ```
+   cd server
+   ```
    使用pip安装依赖软件包:
    ```
    pip install -r requirements.txt
