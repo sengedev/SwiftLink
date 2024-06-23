@@ -1,7 +1,3 @@
-Here is the translated document:
-
----
-
 # SwiftLink: A Fast URL Shortening Platform
 
 [🇨🇳中文](README.md) | [🇺🇸English](README-en.md)
@@ -191,5 +187,3 @@ curl -X PUT -u <username>:<password> "https://examp.le/shortlink?route=<myroute>
 
 ## License
 This project is distributed under the [Apache 2.0](LICENSE) license, please comply with the open-source license.
-
----
