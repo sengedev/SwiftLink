@@ -1,11 +1,11 @@
-# SwiftLink: 快速的短链接平台
+# SwiftLink: 快速且便捷的短链接平台
 
 [🇨🇳中文](README.md) | [🇺🇸English](README-en.md)
 
 ![GitHub Stars](https://img.shields.io/github/stars/sengedev/SwiftLink?style=social)
 ![GitHub License](https://img.shields.io/github/license/sengedev/SwiftLink)
 
-**SwiftLink** 是一个使用 FastAPI 精心打造的高性能短链接平台，旨在快速将冗长的 URL 转换为紧凑、易于共享的链接。非常适合在社交媒体、博客或任何简单与效率相结合的平台上无缝共享。SwiftLink将精简作为首要目标。
+**SwiftLink** 是一个使用 FastAPI 精心打造的高性能短链接平台，旨在快速将冗长的 URL 转换为紧凑、易于共享的链接。非常适合在社交媒体、博客或任何简单与效率相结合的平台上无缝共享。SwiftLink 将 URL 的精简作为首要目标。
 
 ## 关键作用
 
@@ -39,14 +39,15 @@
    pip install -r requirements.txt
    ```
 4. **启动服务**:
-   ```
-   python main.py
-   ```
+    ```
+    uvicorn run main:app --reload host=0.0.0.0 port=8000
+    ```
    系统默认禁止/docs和/redoc目录。
 
 5. **绑定域名**：
    安装完成后请不要忘记绑定域名，因为域名相对于 IP 地址更加的安全可靠。
-   在生产环境中，可以使用 Nginx、Apache 或 Caddy 绑定域名，建议使用 Caddy 进行绑定，但也可以根据需要选择 http 服务器。
+   在生产环境中，可以使用 Nginx、Apache 或 Caddy 绑定域名。
+   建议使用 Caddy 进行绑定，但也可以根据需要选择 http 服务器。
    Nginx、Apache 和 Caddy 是三种常用的网络服务器，各有优缺点。
 - **[Nginx](https://nginx.org/)**： 如果需要高并发性能和低内存消耗，特别是处理静态内容和反向代理，Nginx 是一个不错的选择。
 - **[Caddy](https://caddyserver.com/)**： 如果希望简化 HTTPS 配置，并需要一个易于配置的服务器，Caddy 是一个不错的选择。
@@ -54,87 +55,138 @@
 
 ## 如何使用
 
-本示例使用CURL实现RESTful API，支持用户和短链接的管理。
+本示例使用CURL实现RESTful API，同时也支持使用PyQt编写的APP来帮助用户完成短链接的管理操作。
+
+为了安全，本系统默认禁用/docs和/redoc目录，您可以按需开启，但是不建议开启docs和redoc。
+
+### 基本信息
+- 基础URL: `https://examp.le`
+- 认证方式: HTTP Basic Auth
 
 ### 用户管理
 
-1. **创建用户**
+#### 1. 用户认证
 
+> 请求
+> - 方法: `GET`
+> - URL: `https://examp.le/user`
+
+> 响应
+> - 成功: `200 OK`
+> - 失败: `401 Unauthorized` 或其他错误状态码
+
+- 示例
 ```bash
-curl --location --request POST 'https://your-domain.com/user' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"
-}'
+curl -u <username>:<password> https://examp.le/user
 ```
 
-> 您需要在第一次启动时创建用户，系统只允许创建一个用户。如您忘记密码，您需要手动删除数据库user表中的用户信息后重新请求创建。
-> 如果密码为空，系统会生成一个随机密码
+#### 2. 创建用户
 
-2. **修改密码**
+> 请求
+> - 方法: `POST`
+> - URL: `https://examp.le/user`
+
+> 响应
+> - 成功: `201 Created`
+> - 失败: `400 Bad Request` 或其他错误状态码
+
+- 示例
 ```bash
-curl --location --request PUT 'https://your-domain.com/user' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>",
-    "new_password": "<new_password>"
-}'
+curl -X POST -u <username>:<password> https://examp.le/user
 ```
 
-> 如果新密码为空则生成一个随机密码
+#### 3. 更改密码
+
+> 请求
+> - 方法: `PUT`
+> - URL: `https://examp.le/user`
+> - Headers: 
+>   - `new-password`: 新密码
+
+> 响应
+> - 成功: `200 OK`
+> - 失败: `400 Bad Request` 或其他错误状态码
+
+- 示例
+```bash
+curl -X PUT -u <username>:<password> -H "new-password: <newpassword>" https://examp.le/user
+```
 
 ### 短链接管理
 
-- 以下为保留字，禁止设置为短链接：`favicon.ico`, `index.html`, `robots.txt`, `sitemap.xml`, `docs`, `redoc`, `user`, `shortlinks`, `shortlink`
+#### 1. 获取短链接列表
 
-1. **获取所有短链接**
+> 请求
+> - 方法: `GET`
+> - URL: `https://examp.le/shortlinks`
+
+> 响应
+> - 成功: `200 OK`，返回短链接列表的JSON数据
+> - 失败: `401 Unauthorized` 或其他错误状态码
+
+- 示例
 ```bash
-curl --location --request GET 'https://your-domain.com/shortlinks' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"
-}'
+curl -u <username>:<password> https://examp.le/shortlinks
 ```
 
-2. **创建短链接**
+#### 2. 创建短链接
+
+> 请求
+> - 方法: `POST`
+> - URL: `https://examp.le/shortlink`
+> - 参数:
+>   - `route`: 短链接路由
+>   - `url`: 原始URL
+
+> 响应
+> - 成功: `200 Created`
+> - 失败: `400 Bad Request` 或其他错误状态码
+
+- 示例
 ```bash
-curl --location --request POST 'https://your-domain.com/shortlink' \
-=--header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"，
-    "route": "<route>",
-    "url": "<http://example.com/long-route>"
-}'
+curl -X POST -u <username>:<password> "https://examp.le/shortlink?route=<myroute>&url=<https://original.url>"
 ```
 
-3. **修改短链接**
+#### 3. 删除短链接
+
+> 请求
+> - 方法: `DELETE`
+> - URL: `https://examp.le/shortlink`
+> - 参数:
+>   - `route`: 短链接路由
+
+> 响应
+> - 成功: `200 OK`
+> - 失败: `400 Bad Request` 或其他错误状态码
+
+- 示例
 ```bash
-curl --location --request PUT 'https://your-domain.com/shortlink' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"，
-    "route": "<route>",
-    "url": "<http://example.com/long-route>",
-    "new-route": "<new-route>",
-    "new-url": "<new-url>"
-}'
+curl -X DELETE -u <username>:<password> "https://examp.le/shortlink?route=<myroute>"
 ```
 
-4. **删除短链接**
+#### 4. 更新短链接
+
+> 请求
+> - 方法: `PUT`
+> - URL: `https://examp.le/shortlink`
+> - 参数:
+>   - `route`: 原短链接路由
+>   - `new_route`: 新短链接路由
+>   - `new_url`: 新原始URL
+
+> 响应
+> - 成功: `200 OK`
+> - 失败: `400 Bad Request` 或其他错误状态码
+
+- 示例
 ```bash
-curl --location --request DELETE 'https://your-domain.com/shortlink' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"，
-    "route": "<route>"
-}'
+curl -X PUT -u <username>:<password> "https://examp.le/shortlink?route=<myroute>&new_route=<newroute>&new_url=<https://new.url>"
 ```
+
+### 注意事项
+- 所有请求都需要进行基本身份验证。
+- 所有请求的响应都应该进行状态码检查，以确保请求成功。
+- 更改密码后需要更新会话中的密码信息。
 
 ## 协议
 本项目在[Apache 2.0](LICENSE)下分发，请遵守开源协议。
