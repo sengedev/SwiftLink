@@ -1,143 +1,195 @@
-# SwiftLink: The Rapid URL Shortener
+Here is the translated document:
+
+---
+
+# SwiftLink: A Fast URL Shortening Platform
 
 [🇨🇳中文](README.md) | [🇺🇸English](README-en.md)
 
 ![GitHub Stars](https://img.shields.io/github/stars/sengedev/SwiftLink?style=social)
 ![GitHub License](https://img.shields.io/github/license/sengedev/SwiftLink)
 
-**SwiftLink** is a high-performance short linking platform crafted using FastAPI to quickly transform long URLs into compact, easy-to-share links. Perfect for seamless sharing on social media, email, or any platform where simplicity meets efficiency.
+**SwiftLink** is a high-performance URL shortening platform meticulously crafted using FastAPI, designed to quickly convert lengthy URLs into compact, easy-to-share links. Ideal for seamless sharing on social media, blogs, or any platform where simplicity and efficiency converge. SwiftLink prioritizes URL shortening.
 
-## Key Roles
+## Key Features
 
-- **Fast Response**: Leverages FastAPI's asynchronous processing for near-instant link creation and redirection.
-- **Personalisation**: Provides customisable short URLs or auto-generation, as well as aliases for enhanced brand identity.
-- **Scalable Architecture**: Built for flexibility, allowing easy integration with additional services and future enhancements.
+- **Fast Response**: Achieves near-instantaneous link creation and redirection utilizing FastAPI's asynchronous processing.
+- **Customization**: Offers customizable short URLs or auto-generation, along with aliases for enhanced brand identity.
+- **Scalable Architecture**: Built to be flexible, allowing easy integration of other services and future enhancements.
 
-## Technology Stack
+## Tech Stack
 
-**Backend**: Powered by FastAPI and working with Uvicorn to provide superior performance.
-**Data Storage**: Uses SQLite to store data and keep the system lightweight.
+**Backend**: Powered by FastAPI, providing excellent performance with Uvicorn.
+**Data Storage**: Uses SQLite for data storage, ensuring a lightweight system.
 
-## Getting Started with Installation
+## Installation
 
-1. **Clone project**.
-   ``
+1. **Clone the Project**:
+   ```
    git clone https://github.com/sengedev/SwiftLink.git
    cd SwiftLink
-   cd SwiftLink
-2. **Environment setup**.
-   Create a new virtual environment.
+   ```
+2. **Environment Setup**:
+   Create a virtual environment:
    ```
    python -m venv venv
    ```
-   Activate the virtual environment.
+   Activate the virtual environment:
    ```
    source venv/bin/activate
    ```
-   Install dependent packages using pip: ``
+   Install required packages using pip:
    ```
    pip install -r requirements.txt
    ```
-3. **Start the service**.
+4. **Start the Service**:
    ```
    python main.py
    ```
-   The system disables the /docs and /redoc directories by default.
+   By default, the /docs and /redoc directories are disabled.
 
-4. **Bind a domain name**:
-   Please don't forget to bind a domain name after the installation is complete. Domain names are safer and more reliable than IP addresses.
-   In the production environment, you can use Nginx, Apache or Caddy to bind the domain name, it is recommended to use Caddy for binding, but you can also choose the http server according to the need.
-   Nginx, Apache and Caddy are three commonly used web servers, each with its own advantages and disadvantages.
-- **[Nginx](https://nginx.org/)**: Nginx is a good choice if you need high concurrency performance and low memory consumption, especially for handling static content and reverse proxies.
-- **[Caddy](https://caddyserver.com/)**: Caddy is a good choice if you want to simplify HTTPS configuration and need an easy-to-configure server.
-- **[Apache](https://httpd.apache.org/)**: If you need rich feature and module support, as well as good compatibility, Apache may be a better fit.
+5. **Domain Binding**:
+   After installation, don’t forget to bind a domain, as it is safer and more reliable than using an IP address. In a production environment, you can use Nginx, Apache, or Caddy to bind the domain. Caddy is recommended, but you can choose the HTTP server based on your needs. Nginx, Apache, and Caddy are three common web servers, each with its own advantages and disadvantages.
+- **[Nginx](https://nginx.org/)**: If you need high concurrency performance and low memory consumption, especially for handling static content and reverse proxy, Nginx is a good choice.
+- **[Caddy](https://caddyserver.com/)**: If you want to simplify HTTPS configuration and need an easy-to-configure server, Caddy is a good choice.
+- **[Apache](https://httpd.apache.org/)**: If you need rich functionality and module support, as well as good compatibility, Apache might be more suitable.
 
-## How to Use
+## Usage
 
-This demo uses curl to implement a RESTful API that supports the management of users and short links. This demo use`https://your-domain.com` as the domain, you should change it to your own domain.
+This example uses CURL to implement the RESTful API and also supports an APP written in PyQt to help users manage short links.
+
+For security, the system disables the /docs and /redoc directories by default. You can enable them as needed, but it is not recommended.
+
+### Basic Information
+- Base URL: `https://examp.le`
+- Authentication: HTTP Basic Auth
 
 ### User Management
 
-1. **Create User**:
+#### 1. User Authentication
 
-```
-curl --location --request POST 'https://your-domain.com/user' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"
-}'
-```
-> You should create a new user in the first time you started up. System is only allow you to create only one user. If you forget your password, please delete user in user table manually. If password is empty, system will generate a random password.
+> Request
+> - Method: `GET`
+> - URL: `https://examp.le/user`
 
-2. **Change Password**:
+> Response
+> - Success: `200 OK`
+> - Failure: `401 Unauthorized` or other error codes
 
-```
-curl --location --request PUT 'https://your-domain.com/user' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>",
-    "new_password": "<new_password>"
-}'
+- Example
+```bash
+curl -u <username>:<password> https://examp.le/user
 ```
 
-> If new password is empty, system will generate a random password as your new password.
+#### 2. Create User
 
-### Short Link Management
+> Request
+> - Method: `POST`
+> - URL: `https://examp.le/user`
 
-- The following is reserved and setting up short links is prohibited: `favicon.ico`, `index.html`, `robots.txt`, `sitemap.xml`, `docs`, `redoc`, `user`, `shortlink`, `shortlinks`
+> Response
+> - Success: `201 Created`
+> - Failure: `400 Bad Request` or other error codes
 
-1. **Get all Shortlinks**:
-
-```
-curl --location --request GET 'https://your-domain.com/shortlinks' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"
-}'
+- Example
+```bash
+curl -X POST -u <username>:<password> https://examp.le/user
 ```
 
-2. **Create New Shortlink**:
+#### 3. Change Password
 
-```
-curl --location --request POST 'https://your-domain.com/shortlink' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"，
-    "route": "<route>",
-    "url": "<http://example.com/long-route>"
-}'
-```   
+> Request
+> - Method: `PUT`
+> - URL: `https://examp.le/user`
+> - Headers:
+>   - `new-password`: New password
 
-3. **Edit a Shortlink**:
+> Response
+> - Success: `200 OK`
+> - Failure: `400 Bad Request` or other error codes
 
-```
-curl --location --request PUT 'https://your-domain.com/shortlink' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"，
-    "route": "<route>",
-    "url": "<http://example.com/long-route>",
-    "new-route": "<new-route>",
-    "new-url": "<new-url>"
-}'
+- Example
+```bash
+curl -X PUT -u <username>:<password> -H "new-password: <newpassword>" https://examp.le/user
 ```
 
-4. **Delete a Shortlink**:
+### URL Shortening Management
 
+#### 1. Get Short Link List
+
+> Request
+> - Method: `GET`
+> - URL: `https://examp.le/shortlinks`
+
+> Response
+> - Success: `200 OK`, returns JSON data of the short link list
+> - Failure: `401 Unauthorized` or other error codes
+
+- Example
+```bash
+curl -u <username>:<password> https://examp.le/shortlinks
 ```
-curl --location --request DELETE 'https://your-domain.com/shortlink' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "username": "<username>",
-    "password": "<password>"，
-    "route": "<route>"
-}'
+
+#### 2. Create Short Link
+
+> Request
+> - Method: `POST`
+> - URL: `https://examp.le/shortlink`
+> - Parameters:
+>   - `route`: Short link route
+>   - `url`: Original URL
+
+> Response
+> - Success: `200 Created`
+> - Failure: `400 Bad Request` or other error codes
+
+- Example
+```bash
+curl -X POST -u <username>:<password> "https://examp.le/shortlink?route=<myroute>&url=<https://original.url>"
 ```
+
+#### 3. Delete Short Link
+
+> Request
+> - Method: `DELETE`
+> - URL: `https://examp.le/shortlink`
+> - Parameters:
+>   - `route`: Short link route
+
+> Response
+> - Success: `200 OK`
+> - Failure: `400 Bad Request` or other error codes
+
+- Example
+```bash
+curl -X DELETE -u <username>:<password> "https://examp.le/shortlink?route=<myroute>"
+```
+
+#### 4. Update Short Link
+
+> Request
+> - Method: `PUT`
+> - URL: `https://examp.le/shortlink`
+> - Parameters:
+>   - `route`: Original short link route
+>   - `new_route`: New short link route
+>   - `new_url`: New original URL
+
+> Response
+> - Success: `200 OK`
+> - Failure: `400 Bad Request` or other error codes
+
+- Example
+```bash
+curl -X PUT -u <username>:<password> "https://examp.le/shortlink?route=<myroute>&new_route=<newroute>&new_url=<https://new.url>"
+```
+
+### Notes
+- All requests require basic authentication.
+- All request responses should check the status code to ensure the request was successful.
+- After changing the password, update the password information in the session.
 
 ## License
-This project is distributed under [Apache 2.0](LICENSE), please follow the open source License.
+This project is distributed under the [Apache 2.0](LICENSE) license, please comply with the open-source license.
+
+---
