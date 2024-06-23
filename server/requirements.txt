@@ -1,0 +1,5 @@
+aiosqlite
+argon2-cffi
+fastapi
+SQLAlchemy
+uvicorn

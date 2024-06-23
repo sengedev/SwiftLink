@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  swiftlink:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: swiftlink
+    ports:
+      - "8000:8000"
+    volumes:
+      # 持久化数据库文件
+      - ./db_data:/app/db
+    environment:
+      - PYTHONPATH=/app/server
+    command: uvicorn server.main:app --host 0.0.0.0 --port 8000
+
+volumes:
+  db_data:
